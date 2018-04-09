@@ -12,6 +12,11 @@ class App extends Component {
     dogs
   };
 
+  //Method to reshuffle the cards on click
+
+  //Method to compare the state
+
+
   // removeFriend = id => {
   //   const friends = this.state.friends.filter(friend => friend.id !== id);
   //   this.setState({friends});

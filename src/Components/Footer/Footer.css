@@ -1,5 +1,5 @@
 .footer {
-    background: #A9A9A9;
+    background: #928d93;
     height: 100px;
     position: relative;
     color: #fff;
@@ -11,16 +11,17 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background:  #2c323c;
+    background: #557A95;
     padding: 8px;
     font-weight: 600;
 }
 
 .footer>.bottom>a {
     width: 20px;
-    position: relative;
+    /* position: relative;
     top: 3px;
-    left: 2px;
+    left: 2px; */
     color:  white;
+    
 }
 
