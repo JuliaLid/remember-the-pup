@@ -5,8 +5,8 @@ const Navbar = props =>(
  <div className="navbar"> 
    <ul>
         <li><a href="index.html">Remember the Pup</a></li>
-        <li></li>
-        <li>Score: 0 | High Score: 25</li>
+        <li>{props.guessMessage}</li>
+        <li>Score: {props.correctGuess} | High Score: {props.highScore}</li>
     </ul>
 </div> 			
                   		

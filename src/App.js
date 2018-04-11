@@ -35,64 +35,77 @@ class App extends React.Component {
     return array;
   } 
 
+  resetGame = (dogsArray) => {
+
+    for (let i = 0 ; i < dogsArray.length ; i++){
+      dogsArray[i].clicked = false;
+    }
+
+  
+  }
+
   checkGuess = (id) =>{
     const dogsArray = this.state.dogs;
 
        //isolate the clicked dog image by id
     const clickedDog = dogsArray.filter(function(dog) {
         return dog.id === id;
-        
     });
 
-      console.log(clickedDog[0].clicked);
 
     if (clickedDog[0].clicked === false && correctGuess <11){
        
         clickedDog[0].clicked = true;
-       correctGuess ++;
-        console.log(clickedDog[0].clicked);
-       
-   
+        correctGuess ++;
+
+      
+         
         this.shuffleArray(dogsArray);
+        guessMessage = "You guessed correctly!";
+
+
+        this.setState({correctGuess});
+        this.setState({highScore});
+        this.setState({guessMessage});
         this.setState({dogs:dogsArray});
-        console.log(dogsArray);
-               
-    }
-    // else {
-    //   console.log("you lost")
+              
+    } else if (correctGuess === 12) {
+        guessMessage = "You Win! Woof!";
+        highScore = 12;
+        correctGuess = 0;
+        this.setState({correctGuess});
+        this.setState({highScore});
+        this.setState({guessMessage});
+        this.resetGame(dogsArray);
+    } else {
+      
+        guessMessage = "You lose! Try again!";
+        correctGuess = 0;
+        correctGuess = highScore;
+
+        this.setState({guessMessage});
         
-    // }
+        this.setState({highScore});
+        this.setState({correctGuess});
+        this.resetGame(dogsArray);
     
-   
-    // dogsArray.sort(function(a, b){return 0.5 - Math.random()});
-
-    // // dogsArray.sort(function(a, b){return 0.5 - Math.random()});
-
     }
+
+    
   
-
-  //Method to reshuffle the cards on click
-
-  // shuffleDogs=() => {
-  //   const dogsArray = this.state.dogs;
-  //   dogsArray.sort(function a, b){
-  //     return 0.5 - Math.random()
-  //     })
-  //   }
-  // }
-  //Method to compare the state
-
-
-  // removeFriend = id => {
-  //   const friends = this.state.friends.filter(friend => friend.id !== id);
-  //   this.setState({friends});
-  // };
+  }
+  
 
 render(){ 
      
   return(
 <div>
-  <Navbar />
+  <Navbar 
+    guessMessage = {this.state.guessMessage}
+    correctGuess = {this.state.correctGuess}
+    highScore = {this.highScore}
+
+  />
   <Jumbotron />
     <Main>
     
