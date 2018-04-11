@@ -47,6 +47,14 @@ class App extends React.Component {
        
         clickedDog[0].clicked = true;
         score ++;
+        
+        if (score > currentHighScore) {
+          currentHighScore = score;
+          this.setState({
+            highScore:currentHighScore
+         });
+
+        }
         currentHighScore ++;
         message = "You guessed correctly!";
          
@@ -55,7 +63,6 @@ class App extends React.Component {
         this.setState({
           dogs:dogsArray,
           correctGuess:score,
-          highScore:currentHighScore,
           guessMessage:message
         });
     } else if (score === 12) {
