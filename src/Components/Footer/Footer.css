@@ -17,11 +17,15 @@
 }
 
 .footer>.bottom>a {
-    width: 20px;
-    /* position: relative;
+    width: 5em;
+    position: relative;
     top: 3px;
-    left: 2px; */
+    left: 2px;
     color:  white;
     
 }
+
+/* .footer i {
+    font-size: 2em;
+} */
 
