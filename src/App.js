@@ -41,6 +41,15 @@ class App extends React.Component {
     });
   }
 
+  checkHighScore = (score,currentHighScore) => {
+    if (score > currentHighScore) {
+      currentHighScore = score;
+      this.setState({
+        highScore:currentHighScore
+     });
+  }
+}
+
   checkGuess = (id) =>{
     const dogsArray = this.state.dogs;
     let score = this.state.correctGuess;
@@ -54,53 +63,46 @@ class App extends React.Component {
 
     if (clickedDog[0].clicked === false && score <11){
        
-        clickedDog[0].clicked = true;
-        score ++;
+      clickedDog[0].clicked = true;
+      score ++;
+      this.checkHighScore(score,currentHighScore);
+      
+      currentHighScore ++;
+      message = "You guessed correctly!";
         
-        if (score > currentHighScore) {
-          currentHighScore = score;
-          this.setState({
-            highScore:currentHighScore
-         });
+      this.shuffleArray(dogsArray);
+      
+      this.setState({
+        dogs:dogsArray,
+        correctGuess:score,
+        guessMessage:message
+      });
 
-        }
-        currentHighScore ++;
-        message = "You guessed correctly!";
-         
-        this.shuffleArray(dogsArray);
-       
-        this.setState({
-          dogs:dogsArray,
-          correctGuess:score,
-          guessMessage:message
-        });
     } else if (score === 12) {
-         message = "You Win! Woof!";
-         currentHighScore = 12;
-         this.setStateHelper(dogsArray,currentHighScore,score,message);
+      message = "You Win! Woof!";
+      currentHighScore = 12;
+      this.setStateHelper(dogsArray,currentHighScore,score,message);
        
     } else {
-        message = "You lose! Try again!";
-        score = 0;
-        this.setStateHelper(dogsArray,currentHighScore,score,message);
-        this.resetGame(dogsArray);
+      message = "You lose! Try again!";
+      score = 0;
+      this.setStateHelper(dogsArray,currentHighScore,score,message);
+      this.resetGame(dogsArray);
     }
   }
-  
 
   render(){ 
       
     return(
-  <div>
-    <Navbar 
-      guessMessage = {this.state.guessMessage}
-      correctGuess = {this.state.correctGuess}
-      highScore = {this.state.highScore}
+      <div>
+        <Navbar 
+          guessMessage = {this.state.guessMessage}
+          correctGuess = {this.state.correctGuess}
+          highScore = {this.state.highScore}
 
-    />
-    <Jumbotron />
-      <Main>
-      
+        />
+        <Jumbotron />
+          <Main>
             {this.state.dogs.map(dog => (
               <DogCard
                 checkGuess={this.checkGuess}
@@ -110,8 +112,8 @@ class App extends React.Component {
               /> 
             ))}
 
-        </Main>
-        <Footer />
+          </Main>
+          <Footer />
         </div>
       );
     }
