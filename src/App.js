@@ -32,6 +32,15 @@ class App extends React.Component {
     }
   }
 
+  setStateHelper = (dogsArray,currentHighScore,score,message) => {
+    this.setState({
+      dogs:dogsArray,
+      highScore:currentHighScore,
+      correctGuess:score,
+      guessMessage:message
+    });
+  }
+
   checkGuess = (id) =>{
     const dogsArray = this.state.dogs;
     let score = this.state.correctGuess;
@@ -68,24 +77,12 @@ class App extends React.Component {
     } else if (score === 12) {
          message = "You Win! Woof!";
          currentHighScore = 12;
-
-        this.setState({
-          dogs:dogsArray,
-          highScore:currentHighScore,
-          correctGuess:score,
-          guessMessage:message
-        });
+         this.setStateHelper(dogsArray,currentHighScore,score,message);
+       
     } else {
         message = "You lose! Try again!";
         score = 0;
-
-        this.setState({
-          dogs:dogsArray,
-          highScore:currentHighScore,
-          correctGuess:score,
-          guessMessage:message
-        });
-
+        this.setStateHelper(dogsArray,currentHighScore,score,message);
         this.resetGame(dogsArray);
     }
   }
