@@ -7,26 +7,17 @@ import Footer from "./Components/Footer";
 import './App.css';
 import dogs from "./dogs.json";
 
-let correctGuess = 0;
-let highScore = 0;
-let guessMessage = "Will you guess correctly?"
 
 class App extends React.Component {
   
-  // state = {
-  //   dogs:dogs,
-  //   correctGuess:0,
-  //   highScore:0,
-  //   guessMessage:"Let's play"
-  // };
-
   state = {
-      dogs:dogs,
-      correctGuess,
-      highScore,
-      guessMessage
-     };
+    dogs:dogs,
+    correctGuess:0,
+    highScore:0,
+    guessMessage:"Will you guess correctly?"
+  };
 
+  
   shuffleArray = (array)=> {
     for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
@@ -36,93 +27,90 @@ class App extends React.Component {
   } 
 
   resetGame = (dogsArray) => {
-
-    for (let i = 0 ; i < dogsArray.length ; i++){
+      for (let i = 0 ; i < dogsArray.length ; i++){
       dogsArray[i].clicked = false;
     }
-
-  
   }
 
   checkGuess = (id) =>{
     const dogsArray = this.state.dogs;
+    let score = this.state.correctGuess;
+    let message = this.state.guessMessage;
+    let currentHighScore = this.state.highScore;
 
        //isolate the clicked dog image by id
     const clickedDog = dogsArray.filter(function(dog) {
         return dog.id === id;
     });
 
-
-    if (clickedDog[0].clicked === false && correctGuess <11){
+    if (clickedDog[0].clicked === false && score <11){
        
         clickedDog[0].clicked = true;
-        correctGuess ++;
-
-      
+        score ++;
+        currentHighScore ++;
+        message = "You guessed correctly!";
          
         this.shuffleArray(dogsArray);
-        guessMessage = "You guessed correctly!";
+       
+        this.setState({
+          dogs:dogsArray,
+          correctGuess:score,
+          highScore:currentHighScore,
+          guessMessage:message
+        });
+    } else if (score === 12) {
+         message = "You Win! Woof!";
+         currentHighScore = 12;
 
-
-        this.setState({correctGuess});
-        this.setState({highScore});
-        this.setState({guessMessage});
-        this.setState({dogs:dogsArray});
-              
-    } else if (correctGuess === 12) {
-        guessMessage = "You Win! Woof!";
-        highScore = 12;
-        correctGuess = 0;
-        this.setState({correctGuess});
-        this.setState({highScore});
-        this.setState({guessMessage});
-        this.resetGame(dogsArray);
+        this.setState({
+          dogs:dogsArray,
+          highScore:currentHighScore,
+          correctGuess:score,
+          guessMessage:message
+        });
     } else {
-      
-        guessMessage = "You lose! Try again!";
-        correctGuess = 0;
-        correctGuess = highScore;
+        message = "You lose! Try again!";
+        score = 0;
 
-        this.setState({guessMessage});
-        
-        this.setState({highScore});
-        this.setState({correctGuess});
+        this.setState({
+          dogs:dogsArray,
+          highScore:currentHighScore,
+          correctGuess:score,
+          guessMessage:message
+        });
+
         this.resetGame(dogsArray);
-    
     }
-
-    
-  
   }
   
 
-render(){ 
-     
-  return(
-<div>
-  <Navbar 
-    guessMessage = {this.state.guessMessage}
-    correctGuess = {this.state.correctGuess}
-    highScore = {this.highScore}
+  render(){ 
+      
+    return(
+  <div>
+    <Navbar 
+      guessMessage = {this.state.guessMessage}
+      correctGuess = {this.state.correctGuess}
+      highScore = {this.state.highScore}
 
-  />
-  <Jumbotron />
-    <Main>
-    
-          {this.state.dogs.map(dog => (
-            <DogCard
-              checkGuess={this.checkGuess}
-              key = {dog.id}
-              id = {dog.id}
-              image = {dog.image}
-             /> 
-          ))}
+    />
+    <Jumbotron />
+      <Main>
+      
+            {this.state.dogs.map(dog => (
+              <DogCard
+                checkGuess={this.checkGuess}
+                key = {dog.id}
+                id = {dog.id}
+                image = {dog.image}
+              /> 
+            ))}
 
-      </Main>
-      <Footer />
-      </div>
-    );
-  }
+        </Main>
+        <Footer />
+        </div>
+      );
+    }
 }
 
 export default App;
